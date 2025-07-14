@@ -1,16 +1,17 @@
 import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/kit/vite';
-
-const dev = process.env.NODE_ENV === 'development';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 export default {
   kit: {
-    adapter: adapter(),
+    adapter: adapter({
+      pages: 'docs',
+      assets: 'docs',
+      fallback: null,
+      precompress: false,
+      strict: false  // <- allows dynamic route fallback
+    }),
     paths: {
-      base: dev ? '' : '/portfolio',
-    },
-    prerender: {
-      default: true
+      base: '/portfolio'  // <- REQUIRED for GitHub Pages under a repo
     }
   },
   preprocess: vitePreprocess()
